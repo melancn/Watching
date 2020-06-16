@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Net.Http;
 using System.Text.RegularExpressions;
+using System.Configuration;
 
 namespace Watching
 {
@@ -30,6 +31,8 @@ namespace Watching
         public MainWindow()
         {
             InitializeComponent();
+
+            getConfig();
 
             this.notifyIcon = new NotifyIcon();
             this.notifyIcon.BalloonTipText = "系统监控中... ...";
@@ -98,6 +101,7 @@ namespace Watching
 
         private void start_Click(object sender, RoutedEventArgs e)
         {
+            saveConfig();
             if (run_id > 0)
             {
                 return;
@@ -187,6 +191,30 @@ namespace Watching
                 status.Text = "正在停止...";
                 is_stop = true;
             }
+        }
+
+        private void getConfig()
+        {
+            title.Text = ConfigurationManager.AppSettings["title"];
+            content.Text = ConfigurationManager.AppSettings["content"];
+            alert_times.Text = ConfigurationManager.AppSettings["alert_times"];
+            interval_time.Text = ConfigurationManager.AppSettings["interval_time"];
+            url.Text = ConfigurationManager.AppSettings["url"];
+            url_pattern.Text = ConfigurationManager.AppSettings["url_pattern"];
+            is_include.IsChecked = ConfigurationManager.AppSettings["is_include"] == "1" ? true : false;
+        }
+
+        private void saveConfig()
+        {
+            Configuration cfa = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            cfa.AppSettings.Settings["title"].Value = title.Text;
+            cfa.AppSettings.Settings["content"].Value = content.Text;
+            cfa.AppSettings.Settings["alert_times"].Value = alert_times.Text;
+            cfa.AppSettings.Settings["interval_time"].Value = interval_time.Text;
+            cfa.AppSettings.Settings["url"].Value = url.Text;
+            cfa.AppSettings.Settings["url_pattern"].Value = url_pattern.Text;
+            cfa.AppSettings.Settings["is_include"].Value = is_include.IsChecked == true ? "1" : "0";
+            cfa.Save();
         }
     }
 }
