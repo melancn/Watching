@@ -76,13 +76,14 @@ namespace Watching
 
         private void ShowWindow()
         {
-            this.Visibility = System.Windows.Visibility.Visible;
+            this.Show();
+            WindowState = WindowState.Normal;
             this.Activate();
         }
 
         private void HideWindow()
         {
-            this.Visibility = System.Windows.Visibility.Hidden;
+            this.Hide();
             notifyIcon.ShowBalloonTip(3000, "监控", "监控最小化到托盘", ToolTipIcon.Info);
         }
 
@@ -137,6 +138,7 @@ namespace Watching
                     {
                         run_id = 0;
                         is_stop = false;
+                        System.Windows.MessageBox.Show("已停止");
                         break;
                     }
 
@@ -146,7 +148,7 @@ namespace Watching
                     }
                     catch (HttpRequestException e)
                     {
-                        ShowDialog(e.Message);
+                        System.Windows.MessageBox.Show(e.Message);
                         run_id = 0;
                         is_stop = false;
                         break;
@@ -175,15 +177,6 @@ namespace Watching
             status.Text = "已停止";
         }
 
-        private void ShowDialog(string message)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void startHttp()
-        {
-        }
-
         private void stop_btn_Click(object sender, RoutedEventArgs e)
         {
             if (run_id > 0)
@@ -195,14 +188,22 @@ namespace Watching
 
         private void getConfig()
         {
-            title.Text = ConfigurationManager.AppSettings["title"];
-            content.Text = ConfigurationManager.AppSettings["content"];
-            alert_times.Text = ConfigurationManager.AppSettings["alert_times"];
-            interval_time.Text = ConfigurationManager.AppSettings["interval_time"];
-            url.Text = ConfigurationManager.AppSettings["url"];
-            url_pattern.Text = ConfigurationManager.AppSettings["url_pattern"];
-            is_include.IsChecked = ConfigurationManager.AppSettings["is_include"] == "1" ? true : false;
-        }
+            try
+            {
+                title.Text = ConfigurationManager.AppSettings["title"] ?? "DIY卡免还款签账额20元";
+                content.Text = ConfigurationManager.AppSettings["content"] ?? "有货";
+                alert_times.Text = ConfigurationManager.AppSettings["alert_times"] ?? "10";
+                interval_time.Text = ConfigurationManager.AppSettings["interval_time"] ?? "35000";
+                url.Text = ConfigurationManager.AppSettings["url"] ?? "https://shop.cgbchina.com.cn/mall/goods/03140714143403208122?itemCode=03140714143403208122";
+                url_pattern.Text = ConfigurationManager.AppSettings["url_pattern"] ?? "stock-zero";
+                is_include.IsChecked = ConfigurationManager.AppSettings["is_include"] == "1" ? true : false;
+            }
+            catch (ConfigurationErrorsException e)
+            {
+                System.Windows.MessageBox.Show(e.Message);
+            }
+         }
+            
 
         private void saveConfig()
         {
