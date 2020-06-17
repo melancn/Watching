@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Configuration;
+using System.Security;
 
 namespace Watching
 {
@@ -207,15 +208,29 @@ namespace Watching
 
         private void saveConfig()
         {
-            Configuration cfa = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            cfa.AppSettings.Settings["title"].Value = title.Text;
-            cfa.AppSettings.Settings["content"].Value = content.Text;
-            cfa.AppSettings.Settings["alert_times"].Value = alert_times.Text;
-            cfa.AppSettings.Settings["interval_time"].Value = interval_time.Text;
-            cfa.AppSettings.Settings["url"].Value = url.Text;
-            cfa.AppSettings.Settings["url_pattern"].Value = url_pattern.Text;
-            cfa.AppSettings.Settings["is_include"].Value = is_include.IsChecked == true ? "1" : "0";
-            cfa.Save();
+            try
+            {
+                Configuration cfa = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                cfa.AppSettings.Settings.Remove("title");
+                cfa.AppSettings.Settings.Add("title", title.Text);
+                cfa.AppSettings.Settings.Remove("content");
+                cfa.AppSettings.Settings.Add("content", content.Text);
+                cfa.AppSettings.Settings.Remove("alert_times");
+                cfa.AppSettings.Settings.Add("alert_times", alert_times.Text);
+                cfa.AppSettings.Settings.Remove("interval_time");
+                cfa.AppSettings.Settings.Add("interval_time", interval_time.Text);
+                cfa.AppSettings.Settings.Remove("url");
+                cfa.AppSettings.Settings.Add("url", url.Text);
+                cfa.AppSettings.Settings.Remove("url_pattern");
+                cfa.AppSettings.Settings.Add("url_pattern", url_pattern.Text);
+                cfa.AppSettings.Settings.Remove("is_include");
+                cfa.AppSettings.Settings.Add("is_include", is_include.IsChecked == true ? "1" : "0");
+                cfa.Save();
+            }
+            catch (ConfigurationErrorsException e)
+            {
+                System.Windows.MessageBox.Show(e.Message);
+            }
         }
     }
 }
