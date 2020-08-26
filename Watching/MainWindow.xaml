@@ -12,10 +12,9 @@
         <TextBox x:Name="alert_times" HorizontalAlignment="Left" Height="23" Margin="106,79,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="377" VerticalContentAlignment="Center"/>
         <TextBox x:Name="interval_time" HorizontalAlignment="Left" Height="23" Margin="106,115,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="377" VerticalContentAlignment="Center"/>
         <TextBox x:Name="url" HorizontalAlignment="Left" Height="50" Margin="106,156,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="377"/>
-        <Button x:Name="start" Content="开始" HorizontalAlignment="Left" Margin="19,280,0,0" VerticalAlignment="Top" Width="92" Height="24" Click="start_Click"/>
+        <Button x:Name="start_stop" Content="开始" HorizontalAlignment="Left" Margin="19,280,0,0" VerticalAlignment="Top" Width="92" Height="24" Click="StartStop_Click"/>
         <TextBox x:Name="url_pattern" HorizontalAlignment="Left" Height="50" Margin="106,211,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="377"/>
         <CheckBox x:Name="is_include" Content="是否包含" HorizontalAlignment="Left" Margin="10,241,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="stop_btn" Content="停止" HorizontalAlignment="Left" Margin="147,280,0,0" VerticalAlignment="Top" Width="86" Height="24" Click="stop_btn_Click"/>
         <TextBlock x:Name="status" HorizontalAlignment="Left" Margin="428,289,0,0" TextWrapping="Wrap" Text="已停止" VerticalAlignment="Top"/>
         <Label Content="提示标题" HorizontalAlignment="Left" Margin="19,10,0,0" VerticalAlignment="Top"/>
         <Label Content="提示内容" HorizontalAlignment="Left" Margin="19,44,0,0" VerticalAlignment="Top"/>
