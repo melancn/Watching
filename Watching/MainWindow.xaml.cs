@@ -129,8 +129,9 @@ namespace Watching
         public delegate void dewindow(string a);
         public void addTextToInfo(string a)
         {
-            logInfo.Text = logInfo.Text + a + "\r\n";
-            
+            Dispatcher.InvokeAsync(() =>
+             { logInfo.Text = logInfo.Text + a + "\r\n"; }
+            );
         }
         private async void processWatching(string url, string url_pattern, string title, string content)
         {

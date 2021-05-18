@@ -44,7 +44,7 @@
         <Button x:Name="start_stop" Content="开始" HorizontalAlignment="Left" Margin="10,0" VerticalAlignment="Center" Width="92" Height="24" Click="StartStop_Click" Grid.Row="6" Grid.ColumnSpan="2"/>
         <TextBlock x:Name="status" HorizontalAlignment="Right" TextWrapping="Wrap" Text="已停止" VerticalAlignment="Center" Grid.Row="6" Grid.ColumnSpan="2" Margin="0,0,10,0"/>
         <Button x:Name="button" Content="日志信息" HorizontalAlignment="Left" Margin="120,0,0,0" Grid.Row="6" VerticalAlignment="Center" Width="92" Grid.ColumnSpan="2" Height="24" Click="button_Click"/>
-        <TextBox x:Name="logInfo" Grid.Column="2" TextWrapping="Wrap" Grid.RowSpan="7" Width="200" Margin="5"/>
+        <TextBox x:Name="logInfo" Grid.Column="2" Grid.RowSpan="7" Width="200" Margin="5" TextWrapping="Wrap" AcceptsReturn="True"/>
 
     </Grid>
 </Window>
