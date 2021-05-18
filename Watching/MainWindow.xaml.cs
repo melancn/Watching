@@ -126,6 +126,12 @@ namespace Watching
             this.CloseWindow();
         }
 
+        public delegate void dewindow(string a);
+        public void addTextToInfo(string a)
+        {
+            logInfo.Text = logInfo.Text + a + "\r\n";
+            
+        }
         private async void processWatching(string url, string url_pattern, string title, string content)
         {
             Boolean is_match = this.is_include.IsChecked == true ? true : false;
@@ -135,8 +141,10 @@ namespace Watching
             int count = 0;
             await System.Threading.Tasks.Task.Run(() =>
             {
+                Console.WriteLine("s Thread ID:#{0}", Thread.CurrentThread.ManagedThreadId);
                 run_id = System.Threading.Thread.CurrentThread.ManagedThreadId;
                 string html;
+                string date;
                 while (true)
                 {
                     Console.WriteLine(is_stop);
@@ -166,7 +174,15 @@ namespace Watching
                         if (match.Success)
                         {
                             count++;
-                            notifyIcon.ShowBalloonTip(time_out, title, content, ToolTipIcon.Info);
+                            addTextToInfo("提示次数：" + count.ToString());
+                            date = DateTime.Now.ToString("u");
+                            addTextToInfo(date + " " + title + " " + content);
+                            if (notifyIcon != null) notifyIcon.ShowBalloonTip(time_out, title, content, ToolTipIcon.Info);
+                        }
+                        else
+                        {
+                            count = 0;
+                            addTextToInfo("提示次数：" + count.ToString());
                         }
                     }
                     else
@@ -174,7 +190,15 @@ namespace Watching
                         if (!match.Success)
                         {
                             count++;
-                            notifyIcon.ShowBalloonTip(time_out, title, content, ToolTipIcon.Info);
+                            addTextToInfo("提示次数：" + count.ToString());
+                            date = DateTime.Now.ToString("u");
+                            addTextToInfo(date + " " + title + " " + content);
+                            if (notifyIcon!=null) notifyIcon.ShowBalloonTip(time_out, title, content, ToolTipIcon.Info);
+                        }
+                        else
+                        {
+                            count = 0;
+                            addTextToInfo("提示次数：" + count.ToString());
                         }
                     }
                     Thread.Sleep(time_out);
@@ -227,6 +251,17 @@ namespace Watching
             catch (ConfigurationErrorsException e)
             {
                 System.Windows.MessageBox.Show(e.Message);
+            }
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            if (logInfo.Visibility == System.Windows.Visibility.Visible) {
+                logInfo.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                logInfo.Visibility = Visibility.Visible;
             }
         }
     }
