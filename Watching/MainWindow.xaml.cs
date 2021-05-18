@@ -101,15 +101,20 @@ namespace Watching
 
         }
 
-        private void start_Click(object sender, RoutedEventArgs e)
+        private void StartStop_Click(object sender, RoutedEventArgs e)
         {
-            saveConfig();
             if (run_id > 0)
             {
-                return;
+                status.Text = "正在停止...";
+                is_stop = true;
             }
-            status.Text = "运行中";
-            processWatching(url.Text, url_pattern.Text, title.Text, content.Text);
+            else
+            {
+                saveConfig();
+                status.Text = "运行中";
+                processWatching(url.Text, url_pattern.Text, title.Text, content.Text);
+                start_stop.Content = "停止";
+            }
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -176,15 +181,7 @@ namespace Watching
                 }
             });
             status.Text = "已停止";
-        }
-
-        private void stop_btn_Click(object sender, RoutedEventArgs e)
-        {
-            if (run_id > 0)
-            {
-                status.Text = "正在停止...";
-                is_stop = true;
-            }
+            start_stop.Content = "开始";
         }
 
         private void getConfig()
