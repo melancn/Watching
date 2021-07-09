@@ -137,6 +137,7 @@ namespace Watching
         {
             Boolean is_match = this.is_include.IsChecked == true ? true : false;
             HttpClient u = new HttpClient();
+            u.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0");
             int time_out = int.Parse(interval_time.Text);
             int times = int.Parse(alert_times.Text);
             int count = 0;
@@ -183,7 +184,6 @@ namespace Watching
                         else
                         {
                             count = 0;
-                            addTextToInfo("提示次数：" + count.ToString());
                         }
                     }
                     else
@@ -199,7 +199,6 @@ namespace Watching
                         else
                         {
                             count = 0;
-                            addTextToInfo("提示次数：" + count.ToString());
                         }
                     }
                     Thread.Sleep(time_out);
