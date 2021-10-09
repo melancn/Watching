@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Watching"
         mc:Ignorable="d"
-        Title="监控" Icon="20200610043023979_easyicon_net_512.ico" StateChanged="Window_StateChanged" Closed="Window_Closed" Closing="Window_Closing" MinWidth="600" Height="360" ResizeMode="CanResizeWithGrip" MinHeight="360" Width="700">
+        Title="监控" Icon="20200610043023979_easyicon_net_512.ico" StateChanged="Window_StateChanged" Closed="Window_Closed" Closing="Window_Closing" MinWidth="600" Height="390" ResizeMode="CanResizeWithGrip" MinHeight="390" Width="700">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -22,6 +22,7 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
 
             <RowDefinition Height="75"/>
             <RowDefinition Height="75"/>
@@ -31,20 +32,24 @@
         <TextBox x:Name="title" Height="23" Margin="10,0" TextWrapping="Wrap" VerticalAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1" MinWidth="200"/>
         <TextBox x:Name="content" Height="23" Margin="10,0" TextWrapping="Wrap" VerticalAlignment="Center" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="1"/>
         <TextBox x:Name="alert_times" Height="23" Margin="10,0" TextWrapping="Wrap" VerticalAlignment="Center" VerticalContentAlignment="Center" Grid.Row="2" Grid.Column="1"/>
-        <TextBox x:Name="interval_time" Height="23" Margin="10,0" TextWrapping="Wrap" VerticalAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="3"/>
-        <TextBox x:Name="url" Height="50" Margin="10,0" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1"/>
-        <TextBox x:Name="url_pattern" Height="50" Margin="10,0" TextWrapping="Wrap" Grid.Column="1" Grid.Row="5"/>
+        <TextBox x:Name="alert_time" Height="23" Margin="10,0" TextWrapping="Wrap" VerticalAlignment="Center" VerticalContentAlignment="Center" Grid.Row="3" Grid.Column="1"/>
+        <TextBox x:Name="interval_time" Height="23" Margin="10,0" TextWrapping="Wrap" VerticalAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="4"/>
+        <TextBox x:Name="url" Height="50" Margin="10,0" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Row="5" Grid.Column="1"/>
+        <TextBox x:Name="url_pattern" Height="50" Margin="10,0" TextWrapping="Wrap" Grid.Column="1" Grid.Row="6"/>
         <Label Content="提示标题" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Label Content="提示内容" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1"/>
         <Label Content="提示次数" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2"/>
-        <Label Content="轮询间隔（ms）" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3"/>
-        <Label Content="轮询地址" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4"/>
-        <Label Content="页面正则" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="5" Margin="0,12,0,0"/>
-        <CheckBox x:Name="is_include" Content="是否包含" HorizontalAlignment="Center" Margin="0,45,0,0" VerticalAlignment="Top" Padding="0" Grid.Row="5"/>
-        <Button x:Name="start_stop" Content="开始" HorizontalAlignment="Left" Margin="10,0" VerticalAlignment="Center" Width="92" Height="24" Click="StartStop_Click" Grid.Row="6" Grid.ColumnSpan="2"/>
-        <TextBlock x:Name="status" HorizontalAlignment="Right" TextWrapping="Wrap" Text="已停止" VerticalAlignment="Center" Grid.Row="6" Grid.ColumnSpan="2" Margin="0,0,10,0"/>
-        <Button x:Name="button" Content="日志信息" HorizontalAlignment="Left" Margin="120,0,0,0" Grid.Row="6" VerticalAlignment="Center" Width="92" Grid.ColumnSpan="2" Height="24" Click="button_Click"/>
-        <TextBox x:Name="logInfo" Grid.Column="2" Grid.RowSpan="7" Width="200" Margin="5" TextWrapping="Wrap" AcceptsReturn="True"/>
+        <Label Content="提示间隔 (ms)" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3"/>
+        <Label Content="轮询间隔（ms）" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4"/>
+        <Label Content="轮询地址" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="5"/>
+        <Label Content="页面正则" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="6" Margin="0,12,0,0"/>
+        <CheckBox x:Name="is_include" Content="是否包含" HorizontalAlignment="Center" Margin="0,45,0,0" VerticalAlignment="Top" Padding="0" Grid.Row="6"/>
+        <Button x:Name="start_stop" Content="开始" HorizontalAlignment="Left" Margin="10,0" VerticalAlignment="Center" Width="92" Height="24" Click="StartStop_Click" Grid.Row="7" Grid.ColumnSpan="2"/>
+        <TextBlock x:Name="status" HorizontalAlignment="Right" TextWrapping="Wrap" Text="已停止" VerticalAlignment="Center" Grid.Row="7" Grid.ColumnSpan="2" Margin="0,0,10,0"/>
+        <Button x:Name="button" Content="日志信息" HorizontalAlignment="Left" Margin="120,0,0,0" Grid.Row="7" VerticalAlignment="Center" Width="92" Grid.ColumnSpan="2" Height="24" Click="button_Click"/>
+
+        <CheckBox x:Name="is_clean_log" Content="每次清空log" HorizontalAlignment="Center" Margin="0" Padding="0" Grid.Column="2" IsChecked="True" VerticalAlignment="Center"/>
+        <TextBox x:Name="logInfo" Grid.Column="2" Grid.RowSpan="7" Width="200" Margin="5" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Grid.Row="1"/>
 
     </Grid>
 </Window>

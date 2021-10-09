@@ -112,6 +112,10 @@ namespace Watching
             {
                 saveConfig();
                 status.Text = "运行中";
+                if ((bool)is_clean_log.IsChecked)
+                {
+                    logInfo.Text = "";
+                }
                 processWatching(url.Text, url_pattern.Text, title.Text, content.Text);
                 start_stop.Content = "停止";
             }
@@ -130,16 +134,21 @@ namespace Watching
         public void addTextToInfo(string a)
         {
             Dispatcher.InvokeAsync(() =>
-             { logInfo.Text = logInfo.Text + a + "\r\n"; }
+             {
+                 logInfo.Text = logInfo.Text + a + "\r\n";
+                 logInfo.ScrollToVerticalOffset(logInfo.ExtentHeight);
+             }
             );
         }
         private async void processWatching(string url, string url_pattern, string title, string content)
         {
             Boolean is_match = this.is_include.IsChecked == true ? true : false;
+            Boolean is_clean_log = this.is_clean_log.IsChecked == true ? true : false;
             HttpClient u = new HttpClient();
             u.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0");
             int time_out = int.Parse(interval_time.Text);
             int times = int.Parse(alert_times.Text);
+            int atime = int.Parse(alert_time.Text);
             int count = 0;
             await System.Threading.Tasks.Task.Run(() =>
             {
@@ -147,6 +156,7 @@ namespace Watching
                 run_id = System.Threading.Thread.CurrentThread.ManagedThreadId;
                 string html;
                 string date;
+                DateTime now = DateTime.Now;
                 while (true)
                 {
                     Console.WriteLine(is_stop);
@@ -175,6 +185,16 @@ namespace Watching
                     {
                         if (match.Success)
                         {
+                            if (atime > 0)
+                            {
+                                DateTime now_t = now.AddMilliseconds(atime);
+                                if (now_t > DateTime.Now)
+                                {
+                                    Thread.Sleep(time_out);
+                                    continue;
+                                }
+                                now = DateTime.Now;
+                            }
                             count++;
                             addTextToInfo("提示次数：" + count.ToString());
                             date = DateTime.Now.ToString("u");
@@ -190,6 +210,16 @@ namespace Watching
                     {
                         if (!match.Success)
                         {
+                            if (atime > 0)
+                            {
+                                DateTime now_t = now.AddMilliseconds(atime);
+                                if (now_t > DateTime.Now)
+                                {
+                                    Thread.Sleep(time_out);
+                                    continue;
+                                }
+                                now = DateTime.Now;
+                            }
                             count++;
                             addTextToInfo("提示次数：" + count.ToString());
                             date = DateTime.Now.ToString("u");
@@ -215,6 +245,7 @@ namespace Watching
                 title.Text = ConfigurationManager.AppSettings["title"] ?? "DIY卡免还款签账额20元";
                 content.Text = ConfigurationManager.AppSettings["content"] ?? "有货";
                 alert_times.Text = ConfigurationManager.AppSettings["alert_times"] ?? "10";
+                alert_time.Text = ConfigurationManager.AppSettings["alert_time"] ?? "0";
                 interval_time.Text = ConfigurationManager.AppSettings["interval_time"] ?? "35000";
                 url.Text = ConfigurationManager.AppSettings["url"] ?? "https://shop.cgbchina.com.cn/mall/goods/03140714143403208122?itemCode=03140714143403208122";
                 url_pattern.Text = ConfigurationManager.AppSettings["url_pattern"] ?? "stock-zero";
@@ -238,6 +269,8 @@ namespace Watching
                 cfa.AppSettings.Settings.Add("content", content.Text);
                 cfa.AppSettings.Settings.Remove("alert_times");
                 cfa.AppSettings.Settings.Add("alert_times", alert_times.Text);
+                cfa.AppSettings.Settings.Remove("alert_time");
+                cfa.AppSettings.Settings.Add("alert_time", alert_time.Text);
                 cfa.AppSettings.Settings.Remove("interval_time");
                 cfa.AppSettings.Settings.Add("interval_time", interval_time.Text);
                 cfa.AppSettings.Settings.Remove("url");
