@@ -135,7 +135,8 @@ namespace Watching
         {
             Dispatcher.InvokeAsync(() =>
              {
-                 logInfo.Text = logInfo.Text + a + "\r\n";
+                 string date = DateTime.Now.ToString("u");
+                 logInfo.Text = logInfo.Text + date + "\r\n" + a + "\r\n";
                  logInfo.ScrollToVerticalOffset(logInfo.ExtentHeight);
              }
             );
@@ -155,7 +156,6 @@ namespace Watching
                 Console.WriteLine("s Thread ID:#{0}", Thread.CurrentThread.ManagedThreadId);
                 run_id = System.Threading.Thread.CurrentThread.ManagedThreadId;
                 string html;
-                string date;
                 DateTime now = DateTime.Now;
                 while (true)
                 {
@@ -172,8 +172,9 @@ namespace Watching
                     {
                         html = u.GetStringAsync(url).Result;
                     }
-                    catch (HttpRequestException e)
+                    catch (Exception e)
                     {
+                        addTextToInfo("错误：" + e.InnerException.Message);
                         System.Windows.MessageBox.Show(e.Message);
                         run_id = 0;
                         is_stop = false;
@@ -197,8 +198,7 @@ namespace Watching
                             }
                             count++;
                             addTextToInfo("提示次数：" + count.ToString());
-                            date = DateTime.Now.ToString("u");
-                            addTextToInfo(date + " " + title + " " + content);
+                            addTextToInfo(title + " " + content);
                             if (notifyIcon != null) notifyIcon.ShowBalloonTip(time_out, title, content, ToolTipIcon.Info);
                         }
                         else
@@ -222,8 +222,7 @@ namespace Watching
                             }
                             count++;
                             addTextToInfo("提示次数：" + count.ToString());
-                            date = DateTime.Now.ToString("u");
-                            addTextToInfo(date + " " + title + " " + content);
+                            addTextToInfo(title + " " + content);
                             if (notifyIcon!=null) notifyIcon.ShowBalloonTip(time_out, title, content, ToolTipIcon.Info);
                         }
                         else
@@ -245,7 +244,7 @@ namespace Watching
                 title.Text = ConfigurationManager.AppSettings["title"] ?? "DIY卡免还款签账额20元";
                 content.Text = ConfigurationManager.AppSettings["content"] ?? "有货";
                 alert_times.Text = ConfigurationManager.AppSettings["alert_times"] ?? "10";
-                alert_time.Text = ConfigurationManager.AppSettings["alert_time"] ?? "0";
+                alert_time.Text = ConfigurationManager.AppSettings["alert_time"] ?? "1000";
                 interval_time.Text = ConfigurationManager.AppSettings["interval_time"] ?? "35000";
                 url.Text = ConfigurationManager.AppSettings["url"] ?? "https://shop.cgbchina.com.cn/mall/goods/03140714143403208122?itemCode=03140714143403208122";
                 url_pattern.Text = ConfigurationManager.AppSettings["url_pattern"] ?? "stock-zero";
